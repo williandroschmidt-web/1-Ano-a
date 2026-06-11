@@ -1,0 +1,284 @@
+/* Variáveis de Cores Dinâmicas */
+:root {
+    --bg-geral: #0f172a;
+    --bg-secao-alt: #1e293b;
+    --texto-principal: #f8fafc;
+    --texto-secundario: #94a3b8;
+    --cor-acento: #38bdf8;
+    --bg-sky: linear-gradient(to bottom, #1e3a8a, #0f172a);
+}
+
+/* TEMAS ESPECÍFICOS CONTROLADOS PELO JAVASCRIPT */
+body.tema-dia {
+    --bg-geral: #f1f5f9;
+    --bg-secao-alt: #e2e8f0;
+    --texto-principal: #0f172a;
+    --texto-secundario: #475569;
+    --cor-acento: #0284c7;
+    --bg-sky: linear-gradient(to bottom, #bae6fd, #e0f2fe);
+}
+
+body.tema-noite {
+    --bg-geral: #0f172a;
+    --bg-secao-alt: #1e293b;
+    --texto-principal: #f8fafc;
+    --texto-secundario: #94a3b8;
+    --cor-acento: #38bdf8;
+    --bg-sky: linear-gradient(to bottom, #020617, #0f172a);
+}
+
+body.tema-chuva {
+    --bg-geral: #334155;
+    --bg-secao-alt: #1e293b;
+    --texto-principal: #f8fafc;
+    --texto-secundario: #cbd5e1;
+    --cor-acento: #64748b;
+    --bg-sky: linear-gradient(to bottom, #475569, #1e293b);
+}
+
+/* Configurações Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-geral);
+    color: var(--texto-principal);
+    overflow-x: hidden;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* Menu Superior */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: rgba(15, 23, 42, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; }
+.logo span { color: var(--cor-acento); }
+.nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--texto-secundario); font-weight: 500; font-size: 0.9rem; transition: 0.3s; }
+.nav-links a:hover { color: var(--cor-acento); }
+
+.btn-perfil {
+    background: var(--bg-secao-alt);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--texto-principal);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* CONTAINER DO CLIMA (Fundo do Painel Principal) */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.clima-sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-sky);
+    z-index: -1;
+    transition: background 0.5s;
+}
+
+/* Astros (Sol / Lua) */
+.astro {
+    position: absolute;
+    top: 15%;
+    right: 10%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+body.tema-dia .astro {
+    background: #f59e0b;
+    box-shadow: 0 0 40px #f59e0b;
+}
+
+body.tema-noite .astro {
+    background: #e2e8f0;
+    box-shadow: 0 0 30px #f1f5f9;
+}
+
+body.tema-chuva .astro {
+    display: none; /* Esconde o sol/lua na chuva pesada */
+}
+
+/* Nuvens */
+.nuvem {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    display: none;
+}
+.nuvem::before, .nuvem::after {
+    content: ''; position: absolute; background: inherit; border-radius: 50%;
+}
+
+body.tema-dia .nuvem, body.tema-chuva .nuvem {
+    display: block;
+}
+
+body.tema-chuva .nuvem {
+    background: #64748b;
+}
+
+.nuvem.n1 { width: 200px; height: 60px; top: 20%; left: 15%; animation: flutuarNuvem 8s infinite alternate; }
+.nuvem.n2 { width: 150px; height: 50px; top: 25%; right: 25%; animation: flutuarNuvem 12s infinite alternate; }
+
+@keyframes flutuarNuvem {
+    from { transform: translateX(-10px); } to { transform: translateX(10px); }
+}
+
+/* Efeitos da Chuva */
+.chuva-gotas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0.2));
+    display: none;
+    background-size: 3px 150px;
+    animation: caindoChuva 0.3s linear infinite;
+}
+
+body.tema-chuva .chuva-gotas {
+    display: block;
+    background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.6) 10%, transparent 15%);
+}
+
+@keyframes caindoChuva {
+    0% { background-position: 0px 0px; }
+    100% { background-position: 20px 300px; }
+}
+
+/* Efeito do Raio */
+.raio {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    display: none;
+}
+body.tema-chuva .raio {
+    display: block;
+    animation: piscarRaio 5s infinite;
+}
+@keyframes piscarRaio {
+    0%, 95%, 98% { opacity: 0; }
+    96%, 99% { opacity: 0.8; }
+}
+
+/* Textos */
+.welcome-text {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--texto-principal);
+}
+
+/* Seções de Conteúdo */
+.content-section { padding: 100px 10%; min-height: 60vh; }
+.alt-bg { background-color: var(--bg-secao-alt); }
+h2 { font-size: 2.5rem; margin-bottom: 40px; border-left: 5px solid var(--cor-acento); padding-left: 20px; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.card { background: var(--bg-geral); padding: 25px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+.horario-table { width: 100%; border-collapse: collapse; }
+.horario-table th, .horario-table td { padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+
+.aviso-box { background: #eab308; color: #000; padding: 20px; border-radius: 10px; }
+footer { padding: 40px; text-align: center; color: var(--texto-secundario); }
+
+/* Janela Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 2000; justify-content: center; align-items: center; }
+.modal-content { background: #1e293b; padding: 30px; border-radius: 15px; display: flex; flex-direction: column; gap: 15px; color: white; width: 90%; max-width: 400px; }
+.modal-content input, .modal-content select { padding: 10px; border-radius: 8px; background: #0f172a; color: white; border: 1px solid #475569; }
+.modal-buttons { display: flex; gap: 10px; }
+#btn-salvar { background: var(--cor-acento); padding: 10px; border: none; border-radius: 8px; flex: 2; cursor: pointer; font-weight: bold; }
+#btn-fechar { background: #475569; padding: 10px; border: none; border-radius: 8px; flex: 1; color: white; cursor: pointer; }
+
+/* =======================================================
+   RESPONSIVIDADE (ADAPTAÇÃO NOTEBOOK / CELULAR)
+   ======================================================= */
+
+/* Para Notebooks e telas médias/grandes (Padrão acima) */
+
+/* Para Celulares e Telas Menores (Máximo 768px de largura) */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 3%;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        gap: 10px; /* Diminui o espaço entre os botões do menu */
+    }
+
+    .nav-links a {
+        font-size: 0.75rem; /* Letras menores nas gavetas para caber na tela */
+    }
+
+    .btn-perfil {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    .welcome-text {
+        font-size: 2.8rem; /* Diminui drasticamente o tamanho do "Seja Bem Vindo" */
+    }
+
+    .hero p {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+
+    .astro {
+        width: 70px; /* Sol e lua menores no celular */
+        height: 70px;
+        top: 12%;
+        right: 5%;
+    }
+
+    .content-section {
+        padding: 60px 5%; /* Margens menores nas laterais */
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .horario-table th, .horario-table td {
+        padding: 8px; /* Tabela mais compacta para não quebrar para os lados */
+        font-size: 0.85rem;
+    }
+}
