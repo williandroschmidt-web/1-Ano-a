@@ -27,19 +27,39 @@
 
     <div id="modal-config" class="modal">
         <div class="modal-content">
-            <h3>Personalize seu Portal</h3>
-            <label for="username">Seu Nome/Usuário:</label>
-            <input type="text" id="username" placeholder="Digite seu nome...">
+            <h3>Configurações de Usuário</h3>
             
-            <label for="clima-teste">Simular Clima:</label>
-            <select id="clima-teste">
+            <label>Seu Nome:</label>
+            <input type="text" id="username" placeholder="Como quer ser chamado?">
+
+            <label>Modo do Tema:</label>
+            <select id="theme-mode">
                 <option value="auto">Automático (Pela Hora)</option>
-                <option value="chuva">Simular Chuva 🌧️</option>
+                <option value="light">☀️ Sempre Claro</option>
+                <option value="dark">🌙 Sempre Escuro</option>
+            </select>
+
+            <label>Cor de Destaque:</label>
+            <select id="theme-color">
+                <option value="#38bdf8">Azul Celestial</option>
+                <option value="#22c55e">Verde Esmeralda</option>
+                <option value="#eab308">Amarelo Ouro</option>
+                <option value="#ef4444">Vermelho Rubi</option>
+                <option value="#a855f7">Roxo Místico</option>
+                <option value="#f472b6">Rosa Pink</option>
+                <option value="#fb923c">Laranja Vibrante</option>
+                <option value="#14b8a6">Ciano Marinho</option>
+            </select>
+            
+            <label>Efeito de Clima:</label>
+            <select id="clima-teste">
+                <option value="auto">Clima Normal</option>
+                <option value="chuva">Simular Tempestade 🌧️</option>
             </select>
             
             <div class="modal-buttons">
-                <button id="btn-salvar">Salvar Configurações</button>
-                <button id="btn-fechar">Fechar</button>
+                <button id="btn-salvar">Salvar Tudo</button>
+                <button id="btn-fechar">Cancelar</button>
             </div>
         </div>
     </div>
@@ -49,7 +69,6 @@
             <div class="astro" id="astro-id"></div>
             <div class="nuvem n1"></div>
             <div class="nuvem n2"></div>
-            <div class="chuva-gotas" id="chuva-id"></div>
             <div class="raio" id="raio-id"></div>
         </div>
 
@@ -94,7 +113,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Portal Acadêmico - Design Moderno</p>
+        <p>&copy; 2026 Portal Acadêmico - Design Personalizado</p>
     </footer>
 
     <script src="script.js"></script>
